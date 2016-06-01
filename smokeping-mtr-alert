@@ -70,8 +70,8 @@ RTT: {rtt}"""
         mtr_output=mtr_output,
         alert=args.alert,
         hostname=args.hostname,
-        loss_pattern=args.loss_pattern.split()[1:],
-        rtt=args.rtt.split()[1:],
+        loss_pattern=" ".join(args.loss_pattern.split()[1:]),
+        rtt=" ".join(args.rtt.split()[1:]),
         name=args.name,
     ))
 
