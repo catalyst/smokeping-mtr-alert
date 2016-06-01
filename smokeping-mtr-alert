@@ -77,7 +77,7 @@ RTT: {rtt}"""
 
     message["From"] = "smokeping-mtr-alert@%s" % hostname
     message["To"] = args.email
-    message["Subject"] = "{name} alert: {target}".format(name=args.name, target=args.target)
+    message["Subject"] = "{name} SmokePing alert: {target}".format(name=args.name, target=args.target)
 
     try:
         p = subprocess.Popen(["sendmail", "-t", "-oi"], stdin=subprocess.PIPE)
