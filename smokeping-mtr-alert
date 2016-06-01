@@ -80,7 +80,7 @@ RTT: {rtt}"""
     message["Subject"] = "{name} SmokePing alert: {target}".format(name=args.name, target=args.target)
 
     try:
-        p = subprocess.Popen(["sendmail", "-t", "-oi"], stdin=subprocess.PIPE)
+        p = subprocess.Popen(["/usr/sbin/sendmail", "-t", "-oi"], stdin=subprocess.PIPE)
         p.communicate(message.as_string())
     except:
         sys.stderr.write('error running sendmail.\n')
