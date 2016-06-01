@@ -1,0 +1,87 @@
+#!/usr/bin/python
+#
+# Copyright (c) 2016 Catalyst.net Ltd
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+
+"""
+Run from SmokePing as a "pipe" alert target. Sends an MTR for the target to the designated e-mail address.
+Michael Fincham <michael.fincham@catalyst.net.nz>.
+"""
+
+import argparse
+import datetime
+import pipes
+import socket
+import subprocess
+import sys
+
+from email.mime.text import MIMEText
+
+if __name__ == "__main__":
+
+    hostname = socket.gethostname()
+
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('alert', help='name of the alert, supplied by smokeping')
+    parser.add_argument('target', help='target being monitored, supplied by smokeping')
+    parser.add_argument('loss_pattern', help='loss pattern that has triggered, supplied by smokeping')
+    parser.add_argument('rtt', help='current RTT for target, supplied by smokeping')
+    parser.add_argument('hostname', help='hostname of target, supplied by smokeping')
+    parser.add_argument('--email', default='root', help='e-mail address to send report, defaults to root')
+    parser.add_argument('--name', default=hostname, help='name of smokeping installation, defaults to hostname where the script runs')
+    args = parser.parse_args()
+
+    template = """Packet loss report from {name} for {target} at {timestamp}.
+
+{mtr_command}
+
+{mtr_output}
+
+Alert triggered: {alert}
+Target: {target}
+Target hostname: {hostname}
+Loss pattern: {loss_pattern}
+RTT: {rtt}"""
+
+    mtr_command = "mtr -n --report %s" % pipes.quote(args.hostname)
+    try:
+        mtr_output = subprocess.check_output(mtr_command.split()).strip()
+    except:
+        sys.stderr.write('error running MTR.\n')
+        sys.exit(1)
+
+    message = MIMEText(template.format(
+        target=args.target,
+        timestamp=datetime.datetime.now().strftime('%c'),
+        mtr_command=mtr_command,
+        mtr_output=mtr_output,
+        alert=args.alert,
+        hostname=args.hostname,
+        loss_pattern=args.loss_pattern,
+        rtt=args.rtt,
+        name=args.name,
+    ))
+
+    message["From"] = "smokeping-mtr-alert@%s" % hostname
+    message["To"] = args.email
+    message["Subject"] = "{name} alert: {target}".format(name=args.name, target=args.target)
+
+    try:
+        p = subprocess.Popen(["sendmail", "-t", "-oi"], stdin=subprocess.PIPE)
+        p.communicate(message.as_string())
+    except:
+        sys.stderr.write('error running sendmail.\n')
+        sys.exit(1)
