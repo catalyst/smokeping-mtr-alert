@@ -50,9 +50,12 @@ Packet loss report from monitoring for Test.AlertDemo at Thu Jun  2 13:27:22 201
 mtr -n --report 192.0.2.1
 
 Start: Thu Jun  2 13:27:12 2016
-HOST: monitoring                 Loss%   Snt   Last   Avg  Best  Wrst StDev
+HOST: monitoring                  Loss%   Snt   Last   Avg  Best  Wrst StDev
+  1.|-- 203.0.113.0                0.0%    10    0.7   6.3   0.4  55.9  17.4
+  2.|-- 198.51.100.0               0.0%    10   21.9  24.3  15.7  43.1   9.2
+  3.|-- ???                       100.0    10    0.0   0.0   0.0   0.0   0.0
 
-Alert triggered: anyloss
+Alert triggered: someloss
 Target: Test.AlertDemo
 Target hostname: 192.0.2.1
 Loss pattern: 100%
