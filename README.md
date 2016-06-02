@@ -39,6 +39,26 @@ More information about the alerting syntax is available [in the SmokePing docume
 
 ## Example e-mail
 
+<pre>
+From: smokeping-mtr-alert@monitoring.example.com
+To: root@example.com
+Subject: monitoring SmokePing alert: Test.AlertDemo
+Date: Thu,  2 Jun 2016 13:27:22 +1200 (NZST)
+
+Packet loss report from monitoring for Test.AlertDemo at Thu Jun  2 13:27:22 2016.
+
+mtr -n --report 192.0.2.1
+
+Start: Thu Jun  2 13:27:12 2016
+HOST: monitoring                 Loss%   Snt   Last   Avg  Best  Wrst StDev
+
+Alert triggered: anyloss
+Target: Test.AlertDemo
+Target hostname: 192.0.2.1
+Loss pattern: 100%
+RTT: U
+</pre>
+
 ## Usage
 
 The positional arguments to the script will usually be provided by SmokePing itself.
@@ -49,7 +69,7 @@ usage: smokeping-mtr-alert [-h] [--email EMAIL] [--name NAME]
 
 Run from SmokePing as a "pipe" alert target. Sends an MTR for the target to
 the designated e-mail address. Michael Fincham
-<michael.fincham@catalyst.net.nz>.
+&lt;michael.fincham@catalyst.net.nz&gt;.
 
 positional arguments:
   alert          name of the alert, supplied by smokeping
