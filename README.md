@@ -24,6 +24,19 @@ pattern = >0%,*12*,>0%,*12*,>0%
 comment = loss 3 times  in a row
 </pre>
 
+Configured alerts may then be attached to targets.
+
+<pre>
+++ AlertDemo
+
+menu = Demonstration
+title = Demonstration host for alerts
+host = 192.0.2.1
+alerts = someless
+<pre>
+
+More information about the alerting syntax is available [in the SmokePing documentation](http://oss.oetiker.ch/smokeping/doc/smokeping_config.en.html#___top).
+
 ## Usage
 
 The positional arguments to the script will usually be provided by SmokePing itself.
