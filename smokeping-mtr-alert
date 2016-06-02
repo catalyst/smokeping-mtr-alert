@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-
 """
 Run from SmokePing as a "pipe" alert target. Sends an MTR for the target to the designated e-mail address.
 Michael Fincham <michael.fincham@catalyst.net.nz>.
