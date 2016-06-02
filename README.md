@@ -2,7 +2,7 @@
 
 When SmokePing detects an [alert](http://oss.oetiker.ch/smokeping/doc/smokeping_config.en.html#___top) condition it can be configured to run a script instead of sending an e-mail.
 
-This script, when launched from SmokePing, runs an [MTR](http://www.bitwizard.nl/mtr/) traceroute in report mode and e-mails the output to the designated address. This can be useful in providing some clues as to the source of the packet loss.
+This script, when launched from SmokePing, runs an [MTR](http://www.bitwizard.nl/mtr/) traceroute in report mode and e-mails the output to the designated address. This can be useful in providing some clues as to the source of packet loss.
 
 ## Installation
 
