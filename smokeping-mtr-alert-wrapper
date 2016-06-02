@@ -1,0 +1,3 @@
+#!/bin/sh
+
+smokeping-mtr-alert --email=operator@example.com --name=unconfigured "$@"
